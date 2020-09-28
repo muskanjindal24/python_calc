@@ -1,5 +1,5 @@
-**Creating a calculator in python using MVC framework**  
-===============================================
+**GUI based Simple Calculator using Python**  
+============================================
 
 <div align="center">
 <img src="mvc.jpg">

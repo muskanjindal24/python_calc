@@ -14,8 +14,8 @@ def main():
     view = GUI()
     view.show()
 
-    Controller(model=model, view=view)
     model = evaluateExpression
+    Controller(model=model, view=view)
 
     sys.exit(pycalc.exec_())
 

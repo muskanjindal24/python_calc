@@ -1,7 +1,9 @@
-**Instruction for Creating a calculator in python using MVC framework**  
+**Instructions for Creating a calculator in python using MVC framework**  
 ===============================================
 
-![MODEL.VIEW.CONTROLLER](mvc.jpg "MVC Framework")
+<div align="center">
+<img src="mvc.jpg">
+</div>
 
 STEP 1: Create test.py
 ======================

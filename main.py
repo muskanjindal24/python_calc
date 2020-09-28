@@ -2,6 +2,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 from view import GUI
+from controller import Controller
 from  model import evaluateExpression
 
 # Client code
@@ -13,6 +14,7 @@ def main():
     view = GUI()
     view.show()
 
+    Controller(model=model, view=view)
     model = evaluateExpression
 
     sys.exit(pycalc.exec_())

@@ -1,4 +1,4 @@
-**Instructions for Creating a calculator in python using MVC framework**  
+**Creating a calculator in python using MVC framework**  
 ===============================================
 
 <div align="center">
@@ -153,7 +153,7 @@ STEP 3: Create main.py
 STEP 4: Create model.py
 ======================
 
-**The aim of the main file to test the view file**
+**The Model component corresponds to all the data-related logic that the user works with. This can represent either the data that is being transferred between the View and Controller components or any other business logic-related data.**
 
     ERROR_MSG = 'ERROR'
 
@@ -194,6 +194,82 @@ STEP 5: Update main.py
         view.show()
 
         model = evaluateExpression
+
+        sys.exit(pycalc.exec_())
+
+    if __name__ == '__main__':
+      main()
+
+STEP 6: Create controller.py
+======================
+
+**Controller.py acts as an interface between Model and View components to process all the business logic and incoming requests, manipulate data using the Model component and interact with the Views to render the final output.**
+
+    # Create a Controller class to connect the GUI and the model
+    from functools import partial
+    ERROR_MSG = 'ERROR'
+
+    class Controller:
+        """PyCalc's Controller."""
+        def __init__(self, model, view):
+            """Controller initializer."""
+            self._evaluate = model
+            self._view = view
+            # Connect signals and slots
+            self._connectSignals()
+
+        def _calculateResult(self):
+            """Evaluate expressions."""
+            result = self._evaluate(expression=self._view.getDisplayText())
+            self._view.setDisplayText(result)
+
+        def _buildExpression(self, sub_exp):
+            """Build expression."""
+            if self._view.getDisplayText() == ERROR_MSG:
+                self._view.clearDisplay()
+
+            expression = self._view.getDisplayText() + sub_exp
+            self._view.setDisplayText(expression)
+
+        def _connectSignals(self):
+            """Connect signals and slots."""
+            for btnText, btn in self._view.buttons.items():
+                if btnText not in {'=', 'C'}:
+                    btn.clicked.connect(partial(self._buildExpression, btnText))
+
+            self._view.buttons['='].clicked.connect(self._calculateResult)
+            self._view.display.returnPressed.connect(self._calculateResult)
+            self._view.buttons['C'].clicked.connect(self._view.clearDisplay)
+
+STEP 7: Update main.py
+======================
+
+**Update the main file in order to test the controller file also**
+
+    from controller import Controller
+    ...
+    Controller(model=model, view=view)
+
+**The final code after updation:**
+
+    import sys
+
+    from PyQt5.QtWidgets import QApplication
+    from view import GUI
+    from controller import Controller
+    from  model import evaluateExpression
+
+    # Client code
+    def main():
+        """Main function."""
+        # Create an instance of QApplication
+        pycalc = QApplication(sys.argv)
+        # Show the calculator's GUI
+        view = GUI()
+        view.show()
+
+        model = evaluateExpression
+        Controller(model=model, view=view)
 
         sys.exit(pycalc.exec_())
 

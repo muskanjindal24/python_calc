@@ -149,3 +149,53 @@ STEP 3: Create main.py
 
     if __name__ == '__main__':
 	     main()
+
+STEP 4: Create model.py
+======================
+
+**The aim of the main file to test the view file**
+
+    ERROR_MSG = 'ERROR'
+
+    # Create a Model to handle the calculator's operation
+    def evaluateExpression(expression):
+        """Evaluate an expression."""
+        try:
+            result = str(eval(expression, {}, {})) 
+        except Exception:
+            result = ERROR_MSG
+
+        return result
+
+STEP 5: Update main.py
+======================
+
+**Update the main file in order to test the model file also**
+
+    from  model import evaluateExpression
+    ...
+    model = evaluateExpression
+
+**The final code after updation of model file:**
+
+    import sys
+
+    from PyQt5.QtWidgets import QApplication
+    from view import GUI
+    from  model import evaluateExpression
+
+    # Client code
+    def main():
+        """Main function."""
+        # Create an instance of QApplication
+        pycalc = QApplication(sys.argv)
+        # Show the calculator's GUI
+        view = GUI()
+        view.show()
+
+        model = evaluateExpression
+
+        sys.exit(pycalc.exec_())
+
+    if __name__ == '__main__':
+      main()
